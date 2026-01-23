@@ -19,7 +19,7 @@ locals {
   resource_path_with_region = "/${var.organization}/${var.project_name}/${var.environment}/${local.region_code}/${local.resource_type_code}/"
 
   # Region mappings
-  region_name = data.aws_region.current.name
+  region_name = data.aws_region.current.region
   region_code = local.region_codes[local.region_name]
   region_codes = {
     us-east-1      = "use1"
