@@ -12,6 +12,7 @@ on:
     paths:
       - '**.tf'
       - '.terraform-docs.yaml'
+  workflow_dispatch:
 
 jobs:
   terraform-docs:
