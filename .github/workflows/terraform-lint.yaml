@@ -13,6 +13,7 @@ on:
       - '**.tf'
       - '**.tfvars'
       - '.github/workflows/terraform-lint.yml'
+  workflow_dispatch:
 
 jobs:
   lint:
