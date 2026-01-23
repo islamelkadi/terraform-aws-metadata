@@ -1,0 +1,29 @@
+formatter: markdown table
+
+version: ">= 0.21"
+
+recursive:
+  enabled: true
+
+sections:
+  show:
+    - resources
+    - requirements
+    - inputs
+    - outputs
+
+content: |-
+  {{ .Requirements }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
+
+output:
+  file: "README.md"
+  mode: inject
+
+# sort variables by required, then name
+sort:
+  enabled: true
+  by: required
