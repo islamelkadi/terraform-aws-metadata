@@ -3,7 +3,7 @@ formatter: markdown table
 version: ">= 0.20"
 
 recursive:
-  enabled: true
+  enabled: false
 
 sections:
   show:
