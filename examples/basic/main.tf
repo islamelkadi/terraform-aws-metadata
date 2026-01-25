@@ -10,7 +10,4 @@ module "metadata" {
 
   # Resource type
   resource_type = var.resource_type
-
-  # Additional tags
-  additional_tags = var.additional_tags
 }

@@ -22,9 +22,3 @@ variable "resource_type" {
   description = "Resource type (e.g., config-aggregator, s3-bucket)"
   type        = string
 }
-
-variable "additional_tags" {
-  description = "Additional tags to apply"
-  type        = map(string)
-  default     = {}
-}
