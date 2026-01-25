@@ -25,12 +25,6 @@ variable "organization" {
   type        = string
 }
 
-variable "additional_tags" {
-  description = "A map of generic additional tags to blanket apply to resources created via this module."
-  type        = map(string)
-  default     = {}
-}
-
 variable "resource_type" {
   description = "The type of resource being created (e.g., config-aggregator, s3-bucket, etc.)"
   type        = string
