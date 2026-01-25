@@ -1,6 +1,6 @@
 formatter: markdown table
 
-version: ">= 0.21"
+version: ">= 0.20"
 
 recursive:
   enabled: true
