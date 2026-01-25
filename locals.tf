@@ -11,7 +11,9 @@ locals {
   resource_prefix_with_region        = "${var.organization}-${var.project_name}-${var.environment}-${local.region_code}-${local.resource_type_code}"
   resource_prefix_with_region_length = length(local.resource_prefix_with_region)
 
-  validate_resource_prefix             = local.resource_prefix_length <= 64 ? true : tobool("Error: resource_prefix exceeds 64 characters (${local.resource_prefix_length} chars). Please use shorter names.")
+  # tflint-ignore: terraform_unused_declarations
+  validate_resource_prefix = local.resource_prefix_length <= 64 ? true : tobool("Error: resource_prefix exceeds 64 characters (${local.resource_prefix_length} chars). Please use shorter names.")
+  # tflint-ignore: terraform_unused_declarations
   validate_resource_prefix_with_region = local.resource_prefix_with_region_length <= 64 ? true : tobool("Error: resource_prefix_with_region exceeds 64 characters (${local.resource_prefix_with_region_length} chars). Please use shorter names.")
 
   # Path formats (for IAM and other resources that use paths)
