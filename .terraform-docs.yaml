@@ -13,6 +13,15 @@ sections:
     - outputs
 
 content: |-
+  ## Table of Contents
+
+  - [Overview](#overview)
+  - [Key Features](#key-features)
+  - [Usage](#usage)
+  - [Requirements](#requirements)
+  - [Inputs](#inputs)
+  - [Outputs](#outputs)
+
   {{ .Requirements }}
 
   {{ .Inputs }}
