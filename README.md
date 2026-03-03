@@ -113,11 +113,20 @@ The module validates and supports the following AWS resource types:
 - `config-aggregator` - AWS Config aggregators
 
 <!-- BEGIN_TF_DOCS -->
+## Table of Contents
+
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Usage](#usage)
+- [Requirements](#requirements)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.14.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.34 |
 
 ## Inputs
