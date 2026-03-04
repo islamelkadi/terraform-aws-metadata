@@ -42,3 +42,18 @@ output "resource_type_code" {
   description = "The resource type code (abbreviated)."
   value       = local.resource_type_code
 }
+
+output "security_controls" {
+  description = "Security controls configuration based on environment and security profile"
+  value       = local.security_controls
+}
+
+output "security_tags" {
+  description = "Standard security and compliance tags to apply to all resources"
+  value       = local.security_tags
+}
+
+output "effective_security_profile" {
+  description = "The effective security profile being applied (dev, staging, or prod)"
+  value       = local.effective_security_profile
+}
