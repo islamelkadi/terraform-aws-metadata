@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.0...v1.1.0) (2026-03-04)
+
+
+### Features
+
+* **metadata:** add security controls and comprehensive resource type framework ([#2](https://github.com/islamelkadi/terraform-aws-metadata/issues/2)) ([593935e](https://github.com/islamelkadi/terraform-aws-metadata/commit/593935e620d32d38e963d92fc683e6540271d96c))
+
 ## 1.0.0 (2026-01-23)
 
 
