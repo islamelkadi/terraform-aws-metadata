@@ -1,38 +1,77 @@
+# Terraform-docs configuration
+# https://terraform-docs.io/
+
 formatter: markdown table
 
-version: ">= 0.20"
+version: ""
+
+header-from: main.tf
+footer-from: ""
 
 recursive:
-  enabled: false
+  enabled: true
+  path: modules
 
 sections:
-  show:
-    - resources
-    - requirements
-    - inputs
-    - outputs
+  hide: []
+  show: []
 
 content: |-
-  ## Table of Contents
+  {{ .Header }}
 
-  - [Overview](#overview)
-  - [Key Features](#key-features)
-  - [Usage](#usage)
-  - [Requirements](#requirements)
-  - [Inputs](#inputs)
-  - [Outputs](#outputs)
+  ## Usage
+
+  ```hcl
+  {{ include "example/main.tf" }}
+  ```
 
   {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Modules }}
+
+  {{ .Resources }}
 
   {{ .Inputs }}
 
   {{ .Outputs }}
 
-output:
-  file: "README.md"
-  mode: inject
+  ## Example
 
-# sort variables by required, then name
+  See [example/](example/) for a complete working example with all features.
+
+  ## License
+
+  MIT Licensed. See [LICENSE](LICENSE) for full details.
+
+output:
+  file: README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
 sort:
   enabled: true
-  by: required
+  by: name
+
+settings:
+  anchor: true
+  color: true
+  default: true
+  description: false
+  escape: true
+  hide-empty: false
+  html: true
+  indent: 2
+  lockfile: true
+  read-comments: true
+  required: true
+  sensitive: true
+  type: true
