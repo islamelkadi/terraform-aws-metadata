@@ -5,44 +5,13 @@ A Terraform module that generates standardized naming conventions, security cont
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Quick Start](#quick-start)
-  - [Basic Usage (Naming Only)](#basic-usage-naming-only)
-  - [With Security Controls and Compliance](#with-security-controls-and-compliance)
-- [Security Profiles](#security-profiles)
-  - [Dev Profile](#dev-profile)
-  - [Staging Profile](#staging-profile)
-  - [Prod Profile](#prod-profile)
-- [Security Controls](#security-controls)
-  - [Using Security Controls in Modules](#using-security-controls-in-modules)
-  - [Security Control Override Pattern](#security-control-override-pattern)
-- [Security Tags](#security-tags)
-- [Supported Environments](#supported-environments)
-- [Supported Resource Types](#supported-resource-types)
-  - [Compute Services](#compute-services)
-  - [Storage Services](#storage-services)
-  - [Database Services](#database-services)
-  - [Networking Services](#networking-services)
-  - [Security & Identity Services](#security--identity-services)
-  - [Identity Services (Cognito)](#identity-services-cognito)
-  - [Monitoring & Logging Services](#monitoring--logging-services)
-  - [Integration Services](#integration-services)
-  - [AI/ML Services](#aiml-services)
-  - [Content Delivery Services](#content-delivery-services)
-  - [Governance & Management Services](#governance--management-services)
-  - [Application Services](#application-services)
-  - [Usage Examples](#usage-examples)
-- [Complete Example](#complete-example)
-- [Benefits](#benefits)
-- [Migration Guide](#migration-guide)
-  - [For Existing Modules](#for-existing-modules)
-  - [For New Modules](#for-new-modules)
+- [Security](#security)
+- [Features](#features)
+- [Usage](#usage)
 - [Requirements](#requirements)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
-- [Example](#example)
+- [MCP Servers](#mcp-servers)
 - [License](#license)
+
 
 ## Prerequisites
 
@@ -59,6 +28,85 @@ make bootstrap
 
 This will install/upgrade: tfenv, Terraform (via tfenv), tflint, terraform-docs, checkov, and pre-commit.
 
+
+## Security
+
+### Security Controls
+
+The `security_controls` output provides a comprehensive object with security settings organized by category:
+
+- **encryption**: KMS, encryption at rest/transit, key rotation
+- **logging**: CloudWatch Logs, retention, access logging, flow logs
+- **network**: Private subnets, VPC endpoints, public access, IMDSv2
+- **iam**: Least privilege, wildcard restrictions, MFA, service roles
+- **data_protection**: Versioning, MFA delete, backups, public access, lifecycle
+- **monitoring**: X-Ray, enhanced monitoring, Performance Insights, CloudTrail
+- **high_availability**: Multi-AZ, cross-region backup
+- **compliance**: PITR, reserved concurrency, deletion protection
+
+### Using Security Controls in Modules
+
+```hcl
+# In a module (e.g., terraform-aws-s3)
+module "metadata" {
+  source = "../terraform-aws-metadata"
+  
+  organization  = var.namespace
+  environment   = var.environment
+  project_name  = var.name
+  resource_type = "s3"
+}
+
+# Use security controls
+locals {
+  # Check if versioning is required
+  versioning_required = module.metadata.security_controls.data_protection.require_versioning
+  
+  # Check if KMS customer-managed key is required
+  kms_required = module.metadata.security_controls.encryption.require_kms_customer_managed
+  
+  # Get minimum log retention
+  log_retention = module.metadata.security_controls.logging.min_log_retention_days
+}
+
+# Apply security tags
+resource "aws_s3_bucket" "this" {
+  bucket = module.metadata.resource_prefix
+  
+  tags = merge(
+    module.metadata.security_tags,
+    var.tags
+  )
+}
+```
+
+### Security Control Override Pattern
+
+Modules should allow overriding security controls with justification:
+
+```hcl
+variable "security_control_overrides" {
+  description = "Override specific security controls with documented justification"
+  
+  type = object({
+    disable_versioning_requirement = optional(bool, false)
+    disable_kms_requirement        = optional(bool, false)
+    justification                  = optional(string, "")
+  })
+  
+  default = {
+    disable_versioning_requirement = false
+    disable_kms_requirement        = false
+    justification                  = ""
+  }
+}
+
+locals {
+  # Control is enforced UNLESS explicitly overridden
+  versioning_required = module.metadata.security_controls.data_protection.require_versioning && 
+                        !var.security_control_overrides.disable_versioning_requirement
+}
+```
 ## Overview
 
 This module provides three core capabilities:
@@ -195,82 +243,6 @@ The module provides three security profiles that automatically configure securit
 
 **Use cases**: Production applications, customer-facing services, regulated workloads, mission-critical systems
 
-## Security Controls
-
-The `security_controls` output provides a comprehensive object with security settings organized by category:
-
-- **encryption**: KMS, encryption at rest/transit, key rotation
-- **logging**: CloudWatch Logs, retention, access logging, flow logs
-- **network**: Private subnets, VPC endpoints, public access, IMDSv2
-- **iam**: Least privilege, wildcard restrictions, MFA, service roles
-- **data_protection**: Versioning, MFA delete, backups, public access, lifecycle
-- **monitoring**: X-Ray, enhanced monitoring, Performance Insights, CloudTrail
-- **high_availability**: Multi-AZ, cross-region backup
-- **compliance**: PITR, reserved concurrency, deletion protection
-
-### Using Security Controls in Modules
-
-```hcl
-# In a module (e.g., terraform-aws-s3)
-module "metadata" {
-  source = "../terraform-aws-metadata"
-  
-  organization  = var.namespace
-  environment   = var.environment
-  project_name  = var.name
-  resource_type = "s3"
-}
-
-# Use security controls
-locals {
-  # Check if versioning is required
-  versioning_required = module.metadata.security_controls.data_protection.require_versioning
-  
-  # Check if KMS customer-managed key is required
-  kms_required = module.metadata.security_controls.encryption.require_kms_customer_managed
-  
-  # Get minimum log retention
-  log_retention = module.metadata.security_controls.logging.min_log_retention_days
-}
-
-# Apply security tags
-resource "aws_s3_bucket" "this" {
-  bucket = module.metadata.resource_prefix
-  
-  tags = merge(
-    module.metadata.security_tags,
-    var.tags
-  )
-}
-```
-
-### Security Control Override Pattern
-
-Modules should allow overriding security controls with justification:
-
-```hcl
-variable "security_control_overrides" {
-  description = "Override specific security controls with documented justification"
-  
-  type = object({
-    disable_versioning_requirement = optional(bool, false)
-    disable_kms_requirement        = optional(bool, false)
-    justification                  = optional(string, "")
-  })
-  
-  default = {
-    disable_versioning_requirement = false
-    disable_kms_requirement        = false
-    justification                  = ""
-  }
-}
-
-locals {
-  # Control is enforced UNLESS explicitly overridden
-  versioning_required = module.metadata.security_controls.data_protection.require_versioning && 
-                        !var.security_control_overrides.disable_versioning_requirement
-}
-```
 
 ## Security Tags
 
