@@ -11,7 +11,6 @@ A Terraform module that generates standardized naming conventions, security cont
 - [Supported Environments](#supported-environments)
 - [Supported Resource Types](#supported-resource-types)
 - [Benefits](#benefits)
-- [Migration Guide](#migration-guide)
 - [Region Configuration](#region-configuration)
 - [Requirements](#requirements)
 - [MCP Servers](#mcp-servers)
@@ -415,44 +414,6 @@ resource_type = "cognito-user-pool" # → acme-payments-prod-userpool
 5. **Audit Trail**: Override justifications documented in code
 6. **Flexibility**: Can override controls when needed with justification
 7. **Standardized Naming**: Consistent resource names across all infrastructure
-
-## Migration Guide
-
-### For Existing Modules
-
-1. Update metadata module source to local path:
-   ```hcl
-   source = "../terraform-aws-metadata"  # or ../../ or ../../../
-   ```
-
-2. Add security_controls variable:
-   ```hcl
-   variable "security_controls" {
-     description = "Security controls from metadata module"
-     type        = any
-     default     = null
-   }
-   ```
-
-3. Use security controls in locals:
-   ```hcl
-   locals {
-     versioning_required = var.security_controls != null ? 
-       var.security_controls.data_protection.require_versioning : true
-   }
-   ```
-
-4. Apply security tags:
-   ```hcl
-   tags = merge(
-     module.metadata.security_tags,
-     var.tags
-   )
-   ```
-
-### For New Modules
-
-Follow the patterns in this document from the start.
 
 ## Region Configuration
 
