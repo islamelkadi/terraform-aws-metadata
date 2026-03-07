@@ -15,7 +15,6 @@ A Terraform module that generates standardized naming conventions, security cont
 - [Requirements](#requirements)
 - [MCP Servers](#mcp-servers)
 
-
 ## Prerequisites
 
 This module is designed for macOS. The following must already be installed on your machine:
@@ -454,7 +453,6 @@ This module includes two [Model Context Protocol (MCP)](https://modelcontextprot
 Both servers run via `uvx` and require no additional installation beyond the [bootstrap](#prerequisites) step.
 
 <!-- BEGIN_TF_DOCS -->
-
 
 ## Requirements
 
