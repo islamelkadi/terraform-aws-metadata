@@ -57,3 +57,8 @@ output "effective_security_profile" {
   description = "The effective security profile being applied (dev, staging, or prod)"
   value       = local.effective_security_profile
 }
+
+output "availability_zones" {
+  description = "List of available availability zones in the current region (excludes local and wavelength zones)."
+  value       = data.aws_availability_zones.available.names
+}
