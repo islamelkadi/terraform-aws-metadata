@@ -118,24 +118,6 @@ locals {
                         !var.security_control_overrides.disable_versioning_requirement
 }
 ```
-## Overview
-
-This module provides three core capabilities:
-
-1. **Standardized Naming**: Consistent resource prefixes, paths, and abbreviated codes
-2. **Security Controls**: Environment-aware security policies (dev/staging/prod)
-3. **Compliance Tags**: Automated tagging for security and compliance frameworks
-
-## Key Features
-
-- **Standardized Naming**: Generates consistent resource prefixes in the format `organization-project-environment-resourcetype`
-- **Security Profiles**: Environment-aware security controls (dev, staging, prod)
-- **Compliance Support**: Built-in support for FCAC, PCI DSS, SOC2, HIPAA, ISO27001
-- **Region Abbreviations**: Converts AWS region names to short codes (e.g., `us-east-1` → `use1`)
-- **Resource Type Codes**: Provides abbreviated codes for common AWS resource types
-- **Path Generation**: Creates hierarchical paths for IAM and other resources
-- **Length Validation**: Ensures generated names don't exceed AWS naming limits (64 characters)
-- **Organization Context**: Automatically retrieves AWS account ID and organization ID
 
 ## Quick Start
 
