@@ -53,6 +53,11 @@ output "security_tags" {
   value       = module.metadata.security_tags
 }
 
+output "availability_zones" {
+  description = "Available availability zones in the current region"
+  value       = module.metadata.availability_zones
+}
+
 output "security_controls_summary" {
   description = "Summary of key security controls"
   value = {
