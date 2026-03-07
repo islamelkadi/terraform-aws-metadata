@@ -1,5 +1,5 @@
 # Basic example configuration
-namespace     = "acme"
+namespace     = "example"
 project_name  = "payments"
 environment   = "prod"
 region        = "us-east-1"

@@ -32,7 +32,7 @@ terraform apply -var-file=params/input.tfvars
 Edit `params/input.tfvars` to customize:
 
 ```hcl
-namespace     = "acme"
+namespace     = "example"
 project_name  = "payments"
 environment   = "prod"
 region        = "us-east-1"
@@ -51,10 +51,10 @@ compliance_frameworks = ["FCAC", "PCI_DSS"]
 
 The module generates several naming formats:
 
-- **resource_prefix**: `acme-payments-prod-cfgagg`
-- **resource_prefix_with_region**: `acme-payments-prod-use1-cfgagg`
-- **resource_path**: `/acme/payments/prod/cfgagg/`
-- **resource_path_with_region**: `/acme/payments/prod/use1/cfgagg/`
+- **resource_prefix**: `example-payments-prod-cfgagg`
+- **resource_prefix_with_region**: `example-payments-prod-use1-cfgagg`
+- **resource_path**: `/example/payments/prod/cfgagg/`
+- **resource_path_with_region**: `/example/payments/prod/use1/cfgagg/`
 
 ### Security Outputs
 
@@ -63,7 +63,7 @@ The module generates several naming formats:
 **Security Tags**:
 ```hcl
 {
-  Organization         = "ACME"
+  Organization         = "EXAMPLE"
   Project              = "PAYMENTS"
   Environment          = "PROD"
   Region               = "USE1"
@@ -131,7 +131,7 @@ environment = "prod"
 module "metadata" {
   source = "../../"
 
-  namespace     = "acme"
+  namespace     = "example"
   project_name  = "myapp"
   environment   = "prod"
   region        = "us-east-1"

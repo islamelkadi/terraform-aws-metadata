@@ -1,5 +1,4 @@
 # .checkov.yml
-# Configuration Checkov pour modules Terraform IAM
 
 # Frameworks à scanner
 framework:
@@ -34,4 +33,3 @@ skip-path:
   - "*.tfstate*"
   - "**/*.tfstate*"
   - terraform-output.json
- 

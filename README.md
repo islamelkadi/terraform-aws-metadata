@@ -4,6 +4,7 @@ A Terraform module that generates standardized naming conventions, security cont
 
 ## Table of Contents
 
+- [Prerequisites](#prerequisites)
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Quick Start](#quick-start)
@@ -42,6 +43,21 @@ A Terraform module that generates standardized naming conventions, security cont
 - [Outputs](#outputs)
 - [Example](#example)
 - [License](#license)
+
+## Prerequisites
+
+This module is designed for macOS. The following must already be installed on your machine:
+- Python 3 and pip
+- [Kiro](https://kiro.dev) and Kiro CLI
+- [Homebrew](https://brew.sh)
+
+To install the remaining development tools, run:
+
+```bash
+make bootstrap
+```
+
+This will install/upgrade: tfenv, Terraform (via tfenv), tflint, terraform-docs, checkov, and pre-commit.
 
 ## Overview
 
@@ -529,7 +545,20 @@ module "metadata" {
 - Via tfvars file: `region = "us-east-1"` in `terraform.tfvars`
 - Via AWS provider: The module uses `data.aws_region.current` as fallback if region is null
 
+## MCP Servers
+
+This module includes two [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) servers configured in `.kiro/settings/mcp.json` for use with Kiro:
+
+| Server | Package | Description |
+|--------|---------|-------------|
+| `aws-docs` | `awslabs.aws-documentation-mcp-server@latest` | Provides access to AWS documentation for contextual lookups of service features, API references, and best practices. |
+| `terraform` | `awslabs.terraform-mcp-server@latest` | Enables Terraform operations (init, validate, plan, fmt, tflint) directly from the IDE with auto-approved commands for common workflows. |
+
+Both servers run via `uvx` and require no additional installation beyond the [bootstrap](#prerequisites) step.
+
 <!-- BEGIN_TF_DOCS -->
+
+
 ## Requirements
 
 | Name | Version |
@@ -543,23 +572,36 @@ module "metadata" {
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.34 |
 
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_organizations_organization.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/organizations_organization) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_compliance_frameworks"></a> [compliance\_frameworks](#input\_compliance\_frameworks) | List of compliance frameworks to enforce (e.g., FCAC, PCI\_DSS, SOC2) | `list(string)` | `[]` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the environment to deploy the config aggregator (dev, test, prod, etc). This is used for semantic organization. | `string` | `"dev"` | no |
-| <a name="input_organization"></a> [organization](#input\_organization) | The name of the organization to deploy the config aggregator. This is used for semantic organization. | `string` | n/a | yes |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace (organization/team name) for resource naming and tagging. | `string` | n/a | yes |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | A unique name to assign for this project. This is used for semantic organization. | `string` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | The name of the AWS region to deploy the config aggregator. | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | AWS region for deployment. Used for region-aware naming and passed through to consuming modules for provider configuration. | `string` | `null` | no |
 | <a name="input_resource_type"></a> [resource\_type](#input\_resource\_type) | The type of resource being created (e.g., config-aggregator, s3-bucket, etc.) | `string` | n/a | yes |
 | <a name="input_security_profile"></a> [security\_profile](#input\_security\_profile) | Security profile to apply (dev, staging, prod). Determines security control defaults. | `string` | `null` | no |
-| <a name="input_compliance_frameworks"></a> [compliance\_frameworks](#input\_compliance\_frameworks) | List of compliance frameworks to enforce (e.g., FCAC, PCI\_DSS, SOC2) | `list(string)` | `[]` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | <a name="output_account_id"></a> [account\_id](#output\_account\_id) | The AWS account ID. |
+| <a name="output_effective_security_profile"></a> [effective\_security\_profile](#output\_effective\_security\_profile) | The effective security profile being applied (dev, staging, or prod) |
 | <a name="output_organization_id"></a> [organization\_id](#output\_organization\_id) | The AWS organization ID. |
 | <a name="output_region_code"></a> [region\_code](#output\_region\_code) | The AWS region code (abbreviated). |
 | <a name="output_region_name"></a> [region\_name](#output\_region\_name) | The AWS region name. |
@@ -570,11 +612,10 @@ module "metadata" {
 | <a name="output_resource_type_code"></a> [resource\_type\_code](#output\_resource\_type\_code) | The resource type code (abbreviated). |
 | <a name="output_security_controls"></a> [security\_controls](#output\_security\_controls) | Security controls configuration based on environment and security profile |
 | <a name="output_security_tags"></a> [security\_tags](#output\_security\_tags) | Standard security and compliance tags to apply to all resources |
-| <a name="output_effective_security_profile"></a> [effective\_security\_profile](#output\_effective\_security\_profile) | The effective security profile being applied (dev, staging, or prod) |
 
-## Example
+## License
 
-See [examples/](examples/) for complete working examples.
+MIT Licensed. See [LICENSE](LICENSE) for full details.
 <!-- END_TF_DOCS -->
 
 ## License
