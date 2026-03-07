@@ -14,7 +14,6 @@ A Terraform module that generates standardized naming conventions, security cont
 - [Region Configuration](#region-configuration)
 - [Requirements](#requirements)
 - [MCP Servers](#mcp-servers)
-- [License](#license)
 
 
 ## Prerequisites
@@ -511,11 +510,3 @@ No modules.
 | <a name="output_security_controls"></a> [security\_controls](#output\_security\_controls) | Security controls configuration based on environment and security profile |
 | <a name="output_security_tags"></a> [security\_tags](#output\_security\_tags) | Standard security and compliance tags to apply to all resources |
 
-## License
-
-MIT Licensed. See [LICENSE](LICENSE) for full details.
-<!-- END_TF_DOCS -->
-
-## License
-
-MIT Licensed. See [LICENSE](LICENSE) for full details.
