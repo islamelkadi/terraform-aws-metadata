@@ -61,8 +61,7 @@ The `security_controls` output provides a comprehensive object with security set
 ```hcl
 # In a module (e.g., terraform-aws-s3)
 module "metadata" {
-  source = "../terraform-aws-metadata"
-  
+  source = "github.com/islamelkadi/terraform-aws-metadata"
   organization  = var.namespace
   environment   = var.environment
   project_name  = var.name
@@ -145,7 +144,6 @@ This module provides three core capabilities:
 ```hcl
 module "metadata" {
   source = "github.com/islamelkadi/terraform-aws-metadata"
-
   namespace     = "myorg"
   project_name  = "myapp"
   environment   = "prod"
@@ -167,7 +165,6 @@ resource "aws_lambda_function" "example" {
 ```hcl
 module "metadata" {
   source = "github.com/islamelkadi/terraform-aws-metadata"
-
   namespace     = "myorg"
   project_name  = "myapp"
   environment   = "prod"
@@ -426,7 +423,6 @@ The `region` variable is required for consistent resource naming and tagging acr
 # In your Terragrunt or Terraform configuration
 module "metadata" {
   source = "github.com/islamelkadi/terraform-aws-metadata"
-  
   namespace     = "myorg"
   project_name  = "myapp"
   environment   = "prod"
