@@ -5,9 +5,14 @@ A Terraform module that generates standardized naming conventions, security cont
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
-- [Security](#security)
 - [Features](#features)
+- [Security](#security)
 - [Usage](#usage)
+- [Supported Environments](#supported-environments)
+- [Supported Resource Types](#supported-resource-types)
+- [Benefits](#benefits)
+- [Migration Guide](#migration-guide)
+- [Region Configuration](#region-configuration)
 - [Requirements](#requirements)
 - [MCP Servers](#mcp-servers)
 - [License](#license)
@@ -28,6 +33,16 @@ make bootstrap
 
 This will install/upgrade: tfenv, Terraform (via tfenv), tflint, terraform-docs, checkov, and pre-commit.
 
+## Features
+
+- **Standardized Naming**: Generates consistent resource prefixes in the format `organization-project-environment-resourcetype`
+- **Security Profiles**: Environment-aware security controls (dev, staging, prod)
+- **Compliance Support**: Built-in support for FCAC, PCI DSS, SOC2, HIPAA, ISO27001
+- **Region Abbreviations**: Converts AWS region names to short codes (e.g., `us-east-1` → `use1`)
+- **Resource Type Codes**: Provides abbreviated codes for common AWS resource types
+- **Path Generation**: Creates hierarchical paths for IAM and other resources
+- **Length Validation**: Ensures generated names don't exceed AWS naming limits (64 characters)
+- **Organization Context**: Automatically retrieves AWS account ID and organization ID
 
 ## Security
 
@@ -243,8 +258,7 @@ The module provides three security profiles that automatically configure securit
 
 **Use cases**: Production applications, customer-facing services, regulated workloads, mission-critical systems
 
-
-## Security Tags
+### Security Tags
 
 The `security_tags` output provides standard security and compliance tags:
 
@@ -261,7 +275,7 @@ The `security_tags` output provides standard security and compliance tags:
 - **ComplianceRequired**: TRUE (if frameworks specified)
 - **AuditRequired**: TRUE (if frameworks specified)
 
-## Supported Environments
+## Usage
 
 - `dev` - Development
 - `test` - Testing
@@ -390,55 +404,6 @@ resource_type = "apigw-rest"       # → acme-payments-prod-apigw
 
 # Cognito User Pool
 resource_type = "cognito-user-pool" # → acme-payments-prod-userpool
-```
-
-## Complete Example
-
-```hcl
-# iac/app/metadata.tf
-module "metadata" {
-  source = "../modules/terraform-aws-metadata"
-
-  namespace     = var.namespace
-  environment   = var.environment
-  project_name  = var.name
-  region        = var.region
-  resource_type = "app"
-
-  # Optional: Override security profile
-  # security_profile = "prod"  # Force prod controls in staging
-
-  # Optional: Specify compliance frameworks
-  compliance_frameworks = ["FCAC"]
-}
-
-# Use in resources
-module "s3_raw_feeds" {
-  source = "../modules/terraform-aws-s3"
-
-  namespace   = var.namespace
-  environment = var.environment
-  name        = "${var.name}-raw-feeds"
-  region      = var.region
-
-  # Pass security controls to module
-  security_controls = module.metadata.security_controls
-
-  # Override specific controls with justification
-  security_control_overrides = {
-    disable_logging_requirement = true
-    justification               = "Demo environment - access logging disabled for cost optimization."
-  }
-
-  # Apply security tags
-  tags = merge(
-    module.metadata.security_tags,
-    {
-      Component = "STORAGE"
-      Purpose   = "RAW_FEED_STORAGE"
-    }
-  )
-}
 ```
 
 ## Benefits
