@@ -1,5 +1,9 @@
 # Terraform AWS Metadata Module
 
+[![Terraform Security](https://github.com/islamelkadi/terraform-aws-metadata/actions/workflows/terraform-security.yaml/badge.svg)](https://github.com/islamelkadi/terraform-aws-metadata/actions/workflows/terraform-security.yaml)
+[![Terraform Lint & Validation](https://github.com/islamelkadi/terraform-aws-metadata/actions/workflows/terraform-lint.yaml/badge.svg)](https://github.com/islamelkadi/terraform-aws-metadata/actions/workflows/terraform-lint.yaml)
+[![Terraform Docs](https://github.com/islamelkadi/terraform-aws-metadata/actions/workflows/terraform-docs.yaml/badge.svg)](https://github.com/islamelkadi/terraform-aws-metadata/actions/workflows/terraform-docs.yaml)
+
 A Terraform module that generates standardized naming conventions, security controls, and compliance tags for AWS resources. This module serves as the foundation for consistent resource management across your AWS infrastructure.
 
 ## Table of Contents
