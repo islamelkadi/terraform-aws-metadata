@@ -6,14 +6,16 @@ A Terraform module that generates standardized naming conventions, security cont
 
 - [Prerequisites](#prerequisites)
 - [Features](#features)
+- [Quick Start](#quick-start)
 - [Security](#security)
-- [Usage](#usage)
-- [Supported Environments](#supported-environments)
+  - [Security Controls](#security-controls)
+  - [Security Profiles](#security-profiles)
+  - [Security Control Override Pattern](#security-control-override-pattern)
 - [Supported Resource Types](#supported-resource-types)
-- [Benefits](#benefits)
 - [Region Configuration](#region-configuration)
-- [Requirements](#requirements)
+- [Benefits](#benefits)
 - [MCP Servers](#mcp-servers)
+- [Requirements](#requirements)
 
 ## Prerequisites
 
@@ -56,13 +58,13 @@ The `security_controls` output provides a comprehensive object with security set
 - **high_availability**: Multi-AZ, cross-region backup
 - **compliance**: PITR, reserved concurrency, deletion protection
 
-### Using Security Controls in Modules
+**Using Security Controls in Modules:**
 
 ```hcl
 # In a module (e.g., terraform-aws-s3)
 module "metadata" {
   source = "github.com/islamelkadi/terraform-aws-metadata"
-  organization  = var.namespace
+  namespace     = var.namespace
   environment   = var.environment
   project_name  = var.name
   resource_type = "s3"
@@ -70,24 +72,15 @@ module "metadata" {
 
 # Use security controls
 locals {
-  # Check if versioning is required
   versioning_required = module.metadata.security_controls.data_protection.require_versioning
-  
-  # Check if KMS customer-managed key is required
   kms_required = module.metadata.security_controls.encryption.require_kms_customer_managed
-  
-  # Get minimum log retention
   log_retention = module.metadata.security_controls.logging.min_log_retention_days
 }
 
 # Apply security tags
 resource "aws_s3_bucket" "this" {
   bucket = module.metadata.resource_prefix
-  
-  tags = merge(
-    module.metadata.security_tags,
-    var.tags
-  )
+  tags = merge(module.metadata.security_tags, var.tags)
 }
 ```
 
@@ -98,22 +91,15 @@ Modules should allow overriding security controls with justification:
 ```hcl
 variable "security_control_overrides" {
   description = "Override specific security controls with documented justification"
-  
   type = object({
     disable_versioning_requirement = optional(bool, false)
     disable_kms_requirement        = optional(bool, false)
     justification                  = optional(string, "")
   })
-  
-  default = {
-    disable_versioning_requirement = false
-    disable_kms_requirement        = false
-    justification                  = ""
-  }
+  default = {}
 }
 
 locals {
-  # Control is enforced UNLESS explicitly overridden
   versioning_required = module.metadata.security_controls.data_protection.require_versioning && 
                         !var.security_control_overrides.disable_versioning_requirement
 }
@@ -121,11 +107,12 @@ locals {
 
 ## Quick Start
 
-### Basic Usage (Naming Only)
+### Basic Usage
 
 ```hcl
 module "metadata" {
-  source = "github.com/islamelkadi/terraform-aws-metadata"
+  source = "github.com/islamelkadi/terraform-aws-metadata?ref=v1.0.0"
+  
   namespace     = "myorg"
   project_name  = "myapp"
   environment   = "prod"
@@ -133,52 +120,37 @@ module "metadata" {
   resource_type = "lambda"
 }
 
-# Use the outputs in your resources
 resource "aws_lambda_function" "example" {
   function_name = "${module.metadata.resource_prefix}-handler"
   # Results in: myorg-myapp-prod-lambda-handler
-  
   tags = module.metadata.security_tags
 }
 ```
 
-### With Security Controls and Compliance
+### With Security Controls
 
 ```hcl
 module "metadata" {
-  source = "github.com/islamelkadi/terraform-aws-metadata"
+  source = "github.com/islamelkadi/terraform-aws-metadata?ref=v1.0.0"
+  
   namespace     = "myorg"
   project_name  = "myapp"
   environment   = "prod"
   region        = "us-east-1"
   resource_type = "s3"
-
-  # Optional: Override security profile
-  security_profile = "prod"  # dev, staging, or prod
-
-  # Optional: Specify compliance frameworks
+  
+  security_profile = "prod"
   compliance_frameworks = ["FCAC", "PCI_DSS"]
 }
 
-# Use security controls in your modules
 resource "aws_s3_bucket" "example" {
   bucket = module.metadata.resource_prefix
-  
-  tags = merge(
-    module.metadata.security_tags,
-    {
-      Component = "STORAGE"
-      Purpose   = "DATA_LAKE"
-    }
-  )
+  tags = module.metadata.security_tags
 }
 
-# Enforce versioning based on security controls
 resource "aws_s3_bucket_versioning" "example" {
   count = module.metadata.security_controls.data_protection.require_versioning ? 1 : 0
-  
   bucket = aws_s3_bucket.example.id
-  
   versioning_configuration {
     status = "Enabled"
   }
@@ -251,13 +223,7 @@ The `security_tags` output provides standard security and compliance tags:
 - **ComplianceRequired**: TRUE (if frameworks specified)
 - **AuditRequired**: TRUE (if frameworks specified)
 
-## Usage
 
-- `dev` - Development
-- `test` - Testing
-- `qa` - Quality Assurance
-- `staging` - Staging
-- `prod` - Production
 
 ## Supported Resource Types
 
