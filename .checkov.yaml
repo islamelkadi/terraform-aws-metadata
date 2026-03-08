@@ -1,35 +1,9 @@
-# .checkov.yml
-
-# Frameworks à scanner
-framework:
-  - terraform
-
-# Format de sortie
-output:
-  - cli
-
-# Options générales
-quiet: true
-compact: true
-download-external-modules: true
-evaluate-variables: true
-
-# Répertoires à scanner
-directory:
-  - .
+# Checkov configuration for terraform-aws-metadata
+# Suppressions for checks that are not applicable to example/demo code
 
 skip-check:
-  - CKV_TF_1    # Ensure Terraform module sources use a commit hash
-
-# Répertoires à exclure
-skip-path:
-  - .terraform/
-  - .terragrunt-cache/
-  - "**/.terraform/"
-  - "**/.terraform.lock.hcl"
-  - "**/.terragrunt-cache/"
-  - "**/terraform"
-  - "**/terraform-output.json"
-  - "*.tfstate*"
-  - "**/*.tfstate*"
-  - terraform-output.json
+  # Terraform Module Sources - Using semantic versioning tags
+  - id: CKV_TF_1
+    comment: "Using semantic version tags (?ref=v1.0.0) instead of commit hashes for better maintainability and readability."
+  - id: CKV_TF_2
+    comment: "Using semantic version tags (?ref=v1.0.0) which is a valid versioning strategy for stable releases."
