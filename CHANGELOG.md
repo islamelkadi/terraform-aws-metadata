@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.2...v1.0.3) (2026-03-08)
+
+
+### Documentation
+
+* add GitHub Actions workflow status badges ([80946b4](https://github.com/islamelkadi/terraform-aws-metadata/commit/80946b47030348061019ebbcb472911ebc008d50))
+* add security scan suppressions section to README ([d3fdf9c](https://github.com/islamelkadi/terraform-aws-metadata/commit/d3fdf9ca02a88a68f3973aafc3647570aae01a2c))
+
 ## [1.0.2](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.1...v1.0.2) (2026-03-08)
 
 
