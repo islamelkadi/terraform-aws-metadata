@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.0...v1.0.1) (2026-03-08)
+
+
+### Bug Fixes
+
+* remove skip-path from .checkov.yaml, rely on workflow-level skip_path ([ca97742](https://github.com/islamelkadi/terraform-aws-metadata/commit/ca97742767710e63d8ca0fa29a4c44998f66a161))
+
 ## [1.2.0](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.1.0...v1.2.0) (2026-03-07)
 
 
