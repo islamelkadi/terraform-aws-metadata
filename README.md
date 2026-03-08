@@ -33,6 +33,16 @@ make bootstrap
 
 This will install/upgrade: tfenv, Terraform (via tfenv), tflint, terraform-docs, checkov, and pre-commit.
 
+## Security
+
+### Security Scan Suppressions
+
+This module suppresses certain Checkov security checks that are not applicable. The following checks are suppressed in `.checkov.yaml`:
+
+**Module Source Versioning (CKV_TF_1, CKV_TF_2)**
+- Suppressed because we use semantic version tags (`?ref=v1.0.0`) instead of commit hashes for better maintainability and readability
+- Semantic versioning is a valid and widely-accepted versioning strategy for stable releases
+
 ## Features
 
 - **Standardized Naming**: Generates consistent resource prefixes in the format `organization-project-environment-resourcetype`
