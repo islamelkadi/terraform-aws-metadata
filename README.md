@@ -9,8 +9,9 @@ A Terraform module that generates standardized naming conventions, security cont
 - [Security](#security)
   - [Security Controls](#security-controls)
   - [Security Control Override Pattern](#security-control-override-pattern)
+  - [Security Profiles](#security-profiles)
+  - [Security Tags](#security-tags)
 - [Quick Start](#quick-start)
-- [Security Profiles](#security-profiles)
 - [Supported Resource Types](#supported-resource-types)
 - [Benefits](#benefits)
 - [Region Configuration](#region-configuration)
@@ -105,6 +106,72 @@ locals {
 }
 ```
 
+### Security Profiles
+
+The module provides three security profiles that automatically configure security controls based on your environment:
+
+#### Dev Profile
+
+**Purpose**: Development and testing environments
+
+**Characteristics**:
+- Relaxed security controls for faster iteration
+- Shorter log retention (7 days)
+- Optional encryption with AWS-managed keys
+- Single AZ deployments allowed
+- Public access allowed for testing
+- No deletion protection (easy teardown)
+
+**Use cases**: Local development, feature branches, proof of concepts, cost optimization
+
+#### Staging Profile
+
+**Purpose**: Pre-production testing and validation
+
+**Characteristics**:
+- Production-like security controls
+- 90-day log retention
+- Customer-managed KMS keys required
+- Multi-AZ for databases
+- Private subnets required
+- Full monitoring enabled
+- Deletion protection enabled
+
+**Use cases**: Integration testing, performance testing, security testing, UAT environments
+
+#### Prod Profile
+
+**Purpose**: Production workloads
+
+**Characteristics**:
+- Maximum security controls
+- 365-day log retention (PCI DSS compliance)
+- Customer-managed KMS keys required
+- Multi-AZ for all critical resources
+- Cross-region backups enabled
+- MFA delete for S3
+- Reserved Lambda concurrency
+- Full monitoring and tracing
+
+**Use cases**: Production applications, customer-facing services, regulated workloads, mission-critical systems
+
+### Security Tags
+
+The `security_tags` output provides standard security and compliance tags:
+
+- **Organization**: Organization name (SCREAMING_SNAKE_CASE)
+- **Project**: Project name (SCREAMING_SNAKE_CASE)
+- **Environment**: Environment (DEV, STAGING, PROD)
+- **Region**: Region code (USE1, EUW1, etc.)
+- **ResourceType**: Resource type code (SCREAMING_SNAKE_CASE)
+- **ManagedBy**: TERRAFORM
+- **Repository**: CORPORATE_ACTIONS_ORCHESTRATOR
+- **SecurityProfile**: DEV, STAGING, or PROD
+- **DataClass**: CONFIDENTIAL, INTERNAL, or PUBLIC
+- **ComplianceFrameworks**: Comma-separated list (FCAC, PCI_DSS, etc.)
+- **ComplianceRequired**: TRUE (if frameworks specified)
+- **AuditRequired**: TRUE (if frameworks specified)
+
 ## Quick Start
 
 ### Basic Usage
@@ -156,72 +223,6 @@ resource "aws_s3_bucket_versioning" "example" {
   }
 }
 ```
-
-## Security Profiles
-
-The module provides three security profiles that automatically configure security controls based on your environment:
-
-### Dev Profile
-
-**Purpose**: Development and testing environments
-
-**Characteristics**:
-- Relaxed security controls for faster iteration
-- Shorter log retention (7 days)
-- Optional encryption with AWS-managed keys
-- Single AZ deployments allowed
-- Public access allowed for testing
-- No deletion protection (easy teardown)
-
-**Use cases**: Local development, feature branches, proof of concepts, cost optimization
-
-### Staging Profile
-
-**Purpose**: Pre-production testing and validation
-
-**Characteristics**:
-- Production-like security controls
-- 90-day log retention
-- Customer-managed KMS keys required
-- Multi-AZ for databases
-- Private subnets required
-- Full monitoring enabled
-- Deletion protection enabled
-
-**Use cases**: Integration testing, performance testing, security testing, UAT environments
-
-### Prod Profile
-
-**Purpose**: Production workloads
-
-**Characteristics**:
-- Maximum security controls
-- 365-day log retention (PCI DSS compliance)
-- Customer-managed KMS keys required
-- Multi-AZ for all critical resources
-- Cross-region backups enabled
-- MFA delete for S3
-- Reserved Lambda concurrency
-- Full monitoring and tracing
-
-**Use cases**: Production applications, customer-facing services, regulated workloads, mission-critical systems
-
-### Security Tags
-
-The `security_tags` output provides standard security and compliance tags:
-
-- **Organization**: Organization name (SCREAMING_SNAKE_CASE)
-- **Project**: Project name (SCREAMING_SNAKE_CASE)
-- **Environment**: Environment (DEV, STAGING, PROD)
-- **Region**: Region code (USE1, EUW1, etc.)
-- **ResourceType**: Resource type code (SCREAMING_SNAKE_CASE)
-- **ManagedBy**: TERRAFORM
-- **Repository**: CORPORATE_ACTIONS_ORCHESTRATOR
-- **SecurityProfile**: DEV, STAGING, or PROD
-- **DataClass**: CONFIDENTIAL, INTERNAL, or PUBLIC
-- **ComplianceFrameworks**: Comma-separated list (FCAC, PCI_DSS, etc.)
-- **ComplianceRequired**: TRUE (if frameworks specified)
-- **AuditRequired**: TRUE (if frameworks specified)
 
 
 
