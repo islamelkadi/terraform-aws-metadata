@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.1...v1.0.2) (2026-03-08)
+
+
+### Bug Fixes
+
+* correct .checkov.yaml format to use simple list instead of id/comment dict ([a8e835e](https://github.com/islamelkadi/terraform-aws-metadata/commit/a8e835e1551fd47913465426ce8e7b55cc8f1e3c))
+
 ## [1.0.1](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.0...v1.0.1) (2026-03-08)
 
 
