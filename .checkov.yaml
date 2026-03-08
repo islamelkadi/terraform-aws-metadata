@@ -3,7 +3,5 @@
 
 skip-check:
   # Terraform Module Sources - Using semantic versioning tags
-  - id: CKV_TF_1
-    comment: "Using semantic version tags (?ref=v1.0.0) instead of commit hashes for better maintainability and readability."
-  - id: CKV_TF_2
-    comment: "Using semantic version tags (?ref=v1.0.0) which is a valid versioning strategy for stable releases."
+  - CKV_TF_1  # Using semantic version tags (?ref=v1.0.0) instead of commit hashes
+  - CKV_TF_2  # Using semantic version tags (?ref=v1.0.0) which is a valid versioning strategy
