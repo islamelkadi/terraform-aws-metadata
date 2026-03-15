@@ -32,8 +32,8 @@ locals {
     # ============================================================================
     # Storage Services
     # ============================================================================
-    "s3"        = "s3" # S3 bucket
-    "s3-bucket" = "s3" # Alias for s3
+    "s3"        = "s3"  # S3 bucket
+    "s3-bucket" = "s3"  # Alias for s3
     "efs"       = "efs" # Amazon EFS file system
     "efs-fs"    = "efs" # Alias for efs
 
