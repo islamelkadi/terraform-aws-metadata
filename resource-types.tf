@@ -26,12 +26,16 @@ locals {
     "lambda-layer"   = "layer"  # Lambda layer
     "sfn"            = "sfn"    # Step Functions state machine
     "step-functions" = "sfn"    # Alias for sfn
+    "eks"            = "eks"    # Amazon EKS cluster
+    "eks-cluster"    = "eks"    # Alias for eks
 
     # ============================================================================
     # Storage Services
     # ============================================================================
     "s3"        = "s3" # S3 bucket
     "s3-bucket" = "s3" # Alias for s3
+    "efs"       = "efs" # Amazon EFS file system
+    "efs-fs"    = "efs" # Alias for efs
 
     # ============================================================================
     # Database Services

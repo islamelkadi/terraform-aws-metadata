@@ -251,12 +251,14 @@ The module supports a comprehensive set of AWS resource types with intuitive abb
 | `lambda` | `lambda` | AWS Lambda function |
 | `lambda-layer` | `layer` | Lambda layer |
 | `sfn`, `step-functions` | `sfn` | Step Functions state machine |
+| `eks`, `eks-cluster` | `eks` | Amazon EKS cluster |
 
 ### Storage Services
 
 | Resource Type | Abbreviation | Description |
 |--------------|--------------|-------------|
 | `s3`, `s3-bucket` | `s3` | S3 bucket |
+| `efs`, `efs-fs` | `efs` | Amazon EFS file system |
 
 ### Database Services
 
@@ -413,6 +415,7 @@ Both servers run via `uvx` and require no additional installation beyond the [bo
 
 <!-- BEGIN_TF_DOCS -->
 
+
 ## Requirements
 
 | Name | Version |
@@ -434,6 +437,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_organizations_organization.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/organizations_organization) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
@@ -455,6 +459,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_account_id"></a> [account\_id](#output\_account\_id) | The AWS account ID. |
+| <a name="output_availability_zones"></a> [availability\_zones](#output\_availability\_zones) | List of available availability zones in the current region (excludes local and wavelength zones). |
 | <a name="output_effective_security_profile"></a> [effective\_security\_profile](#output\_effective\_security\_profile) | The effective security profile being applied (dev, staging, or prod) |
 | <a name="output_organization_id"></a> [organization\_id](#output\_organization\_id) | The AWS organization ID. |
 | <a name="output_region_code"></a> [region\_code](#output\_region\_code) | The AWS region code (abbreviated). |
@@ -467,4 +472,7 @@ No modules.
 | <a name="output_security_controls"></a> [security\_controls](#output\_security\_controls) | Security controls configuration based on environment and security profile |
 | <a name="output_security_tags"></a> [security\_tags](#output\_security\_tags) | Standard security and compliance tags to apply to all resources |
 
+## License
+
+MIT Licensed. See [LICENSE](LICENSE) for full details.
 <!-- END_TF_DOCS -->
