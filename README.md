@@ -192,7 +192,7 @@ The `security_tags` output provides standard security and compliance tags:
 
 ```hcl
 module "metadata" {
-  source = "github.com/islamelkadi/terraform-aws-metadata?ref=v1.0.0"
+  source = "github.com/islamelkadi/terraform-aws-metadata?ref=v1.1.1"
   
   namespace     = "myorg"
   project_name  = "myapp"
@@ -212,7 +212,7 @@ resource "aws_lambda_function" "example" {
 
 ```hcl
 module "metadata" {
-  source = "github.com/islamelkadi/terraform-aws-metadata?ref=v1.0.0"
+  source = "github.com/islamelkadi/terraform-aws-metadata?ref=v1.1.1"
   
   namespace     = "myorg"
   project_name  = "myapp"
