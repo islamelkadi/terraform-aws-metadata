@@ -1,3 +1,11 @@
+## [1.1.0](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.3...v1.1.0) (2026-03-15)
+
+
+### Features
+
+* Add EKS and EFS resource types ([91c041a](https://github.com/islamelkadi/terraform-aws-metadata/commit/91c041afaa34be3969adcd778ca91d28c8590689))
+* add manual triggering to release workflow ([52ff90e](https://github.com/islamelkadi/terraform-aws-metadata/commit/52ff90e8892cb09a7c66bb2300f58e9d6474289b))
+
 ## [1.0.3](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.2...v1.0.3) (2026-03-08)
 
 
