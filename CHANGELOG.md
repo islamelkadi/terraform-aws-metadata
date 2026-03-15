@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.1.0...v1.1.1) (2026-03-15)
+
+
+### Bug Fixes
+
+* Apply terraform fmt formatting ([f4d3955](https://github.com/islamelkadi/terraform-aws-metadata/commit/f4d3955025a210561bbc4ab6e6dcb810c17b6965))
+
 ## [1.1.0](https://github.com/islamelkadi/terraform-aws-metadata/compare/v1.0.3...v1.1.0) (2026-03-15)
 
 
